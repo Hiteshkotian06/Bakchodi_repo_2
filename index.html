@@ -126,27 +126,41 @@ let noClickCount = 0;
 // 1. TYPING EFFECT
 // =====================================================
 
-const text = "Rithika, I don't know how to ask for forgiveness, so made this for you! 🥺 Please forgive me 🥲";
+const lines = [
+    "Rithika, I don't know how to ask for forgiveness,",
+    "so I made this for you! 🥺 Please forgive me 🥲"
+];
 
-let i = 0;
+let lineIndex = 0;
+let charIndex = 0;
 
 function typeWriter() {
 
-    if (i < text.length) {
+    if (lineIndex < lines.length) {
 
-        question.innerHTML += text.charAt(i);
+        if (charIndex < lines[lineIndex].length) {
 
-        i++;
+            question.innerHTML += lines[lineIndex].charAt(charIndex);
 
-        setTimeout(typeWriter, 50);
+            charIndex++;
 
+            setTimeout(typeWriter, 50);
+
+        } else {
+
+            question.innerHTML += "<br>";
+
+            lineIndex++;
+
+            charIndex = 0;
+
+            setTimeout(typeWriter, 200);
+        }
     }
-
 }
 
 typeWriter();
-
-
+    
 // =====================================================
 // 2. MUSIC START ON FIRST INTERACTION
 // =====================================================
@@ -274,24 +288,35 @@ noBtn.addEventListener("click", () => {
     else {
 
         // After 5 escapes → apology
-
+    
         question.innerHTML = "";
-
+    
         noBtn.style.display = "none";
-
         yesBtn.style.display = "none";
-
-
+    
+        // Stop piano
+        fadeOut(bgMusic);
+    
+        // Start the same love song
         setTimeout(() => {
-
+    
+            boomMusic.currentTime = 0;
+            boomMusic.volume = 1;
+            boomMusic.play();
+    
+        }, 500);
+    
+    
+        setTimeout(() => {
+    
             question.innerHTML = `
                 Sorry na baba 🥺<br>
                 Please forgive me ❤️<br>
                 You mean something to me 🥹
             `;
-
+    
         }, 300);
-
+    
     }
 
 });
